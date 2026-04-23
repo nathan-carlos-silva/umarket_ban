@@ -1,69 +1,64 @@
-🛒 UMarket - Sistema de Gestão de Vendas e Estoque
-O UMarket é uma aplicação Java Console desenvolvida para a disciplina de Banco de Dados II. O sistema utiliza arquitetura MVC (Model-View-Controller) e JDBC para gerenciar usuários, produtos, PDVs, estoque e um fluxo completo de vendas com múltiplos itens e relatórios gerenciais.
+# 🛒 UMarket - Sistema de Gestão de Vendas e Estoque
 
-🛠️ Tecnologias Utilizadas
-Java SDK 17+
+O **UMarket** é uma aplicação Java Console desenvolvida para a disciplina de **Banco de Dados II**. O sistema utiliza a arquitetura **MVC** (Model-View-Controller) e **JDBC** para gerenciar uma operação de varejo, desde o cadastro básico até o fluxo complexo de vendas com baixa automática de estoque e relatórios gerenciais.
 
-PostgreSQL (ou SQL Server)
+## 🛠️ Tecnologias Utilizadas
+* **Java SDK 17+**
+* **PostgreSQL** (Banco de Dados Relacional)
+* **JDBC** (Java Database Connectivity)
+* **StandardCharsets.UTF_8** (Suporte a caracteres especiais no console)
 
-JDBC (Java Database Connectivity)
+---
 
-Maven/NetBeans
+## 🚀 Como Executar
 
-🚀 Como Executar
-Configuração do Banco:
+1.  **Configuração do Banco**:
+    * Certifique-se de que o seu banco de dados está ativo.
+    * Execute o script de criação de tabelas e o dump de dados (Seed) para popular o sistema.
+2.  **Configuração da Conexão**:
+    * Verifique a classe `Conexao.java` e insira sua `URL`, `User` e `Password` do banco.
+3.  **Execução**:
+    * Compile e execute a classe `Principal.java`. 
+    * O console está configurado para UTF-8, garantindo a exibição correta de acentos.
 
-Execute o script dump.sql fornecido para criar as tabelas e popular os dados iniciais.
+---
 
-Certifique-se de que a classe Conexao.java tenha as credenciais corretas do seu banco local.
+## 📖 Guia de Navegação (Passo a Passo)
 
-Compilação:
+A interface é baseada em menus numéricos simples e intuitivos. Sempre que terminar uma ação, o sistema pedirá um **ENTER** para limpar a tela e retornar ao menu anterior.
 
-Abra o projeto no NetBeans ou sua IDE de preferência.
+### 1. Menu Principal
+* **1 - Listar registros**: Visualiza tabelas (Usuários, Produtos, PDVs, Estoque, Vendas).
+* **2 - Adicionar registros**: Onde ocorre a criação de novos cadastros e vendas.
+* **3 - Remover registros**: Exclusão por ID com validação de integridade.
+* **4 - Atualizar registros**: Edição de dados existentes.
+* **5 - Exibir relatórios**: Métricas de desempenho do negócio.
+* **6 - Encerrar Aplicação**: Fecha as conexões de forma segura.
 
-Verifique se o driver JDBC está no classpath do projeto.
+### 2. Fluxo de Realização de Venda
+Para testar o processo de venda multi-itens:
+1.  Vá em `2 - Adicionar registros` -> `5 - Itens Venda`.
+2.  Informe os dados do **Cabeçalho** (ID do Usuário e ID do PDV).
+3.  No loop de itens, escolha o **Produto** e a **Quantidade**.
+    * *Validação*: O sistema impede a venda se a quantidade desejada for maior que o estoque atual ou se o produto não existir.
+4.  Escolha se deseja adicionar mais itens ou finalizar.
+5.  Ao finalizar, o valor total da venda é atualizado automaticamente no banco.
 
-Execução:
+### 3. Relatórios Gerenciais
+Acesse a opção `5` no menu principal para visualizar:
+* **Top 5 Produtos**: Ranking dos itens mais vendidos por quantidade acumulada.
+* **Faturamento por Dia**: Soma de vendas dos últimos 10 dias de operação.
+* **Vendas por PDV**: Comparativo de faturamento entre as diferentes unidades físicas.
 
-Execute a classe Principal.java.
+---
 
-📖 Guia de Navegação (Passo a Passo)
-A aplicação utiliza um sistema de menus numéricos. Para selecionar uma opção, digite o número correspondente e pressione ENTER.
+## 🛡️ Funcionalidades de Segurança (DBA)
 
-1. Menu Principal
-Ao iniciar, você terá 6 opções principais:
+* **Rollback Manual**: Em caso de qualquer erro durante a inserção de itens (como falta de estoque), a aplicação remove automaticamente o cabeçalho da venda criado, evitando registros "sujos" ou zerados no banco de dados.
+* **Integridade Referencial**: O script SQL utiliza `ON DELETE CASCADE` de forma estratégica para garantir que a remoção de vendas limpe também seus respectivos itens.
+* **Ordenação**: Todas as listagens utilizam `ORDER BY` via SQL para garantir uma visualização organizada por ID ou nome.
 
-1 - Listar: Visualiza dados brutos de qualquer tabela.
+---
 
-2 - Adicionar: Cria novos registros (incluindo o fluxo de venda).
-
-3 - Remover: Exclui registros por ID.
-
-4 - Atualizar: Modifica dados existentes.
-
-5 - Relatórios: Exibe métricas de negócio e performance.
-
-6 - Encerrar: Fecha a conexão com o banco e sai da aplicação.
-
-2. Fluxo de Venda (A parte mais importante!)
-Para realizar uma venda, navegue em: 2 - Adicionar registros -> 5 - Itens Venda.
-
-Cabeçalho: Informe o ID do Usuário, ID do PDV e a Forma de Pagamento.
-
-Carrinho: O sistema listará os produtos. Escolha o ID e a quantidade.
-
-Validação: O sistema verifica automaticamente se há estoque disponível no PDV escolhido.
-
-Multi-itens: Após cada item, o sistema perguntará se deseja adicionar mais produtos à mesma venda.
-
-Finalização: O valor total é calculado e o estoque é baixado automaticamente.
-
-3. Visualizando Resultados
-Estoque: Use 1 - Listar -> 4 - Estoque para ver a quantidade atualizada após uma venda.
-
-Relatórios: Use 5 - Exibir relatórios para ver o Top 5 produtos mais vendidos ou o faturamento dos últimos 10 dias.
-
-🛡️ Tratamento de Erros
-Integridade: Se ocorrer um erro durante uma venda (ex: falta de estoque ou ID inexistente), o sistema realiza um Rollback Manual, deletando o cabeçalho da venda para não deixar dados órfãos no banco.
-
-Codificação: A aplicação está configurada para UTF-8, garantindo que caracteres como ç e ã apareçam corretamente no console.
+**Desenvolvido por:** Nathan Carlos  
+**Contexto:** Projeto Acadêmico - UDESC Joinville (CCT)
