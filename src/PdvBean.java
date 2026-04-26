@@ -65,6 +65,6 @@ public class PdvBean {
    
     @Override
     public String toString(){
-        return "ID: " + id + " | Nome: " + nome + " | Local: " + cidade + "/" + estado;
+        return "ID: " + id + " | Nome: " + nome + " | Local: " + cidade + "/" + estado + " | Endereço: " + endereco;
     }
 }
