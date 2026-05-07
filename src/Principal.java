@@ -5,9 +5,7 @@ import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
 
-/**
- * @author nathan
- */
+
 public class Principal {
 
     public static void main(String[] args) throws SQLException {
