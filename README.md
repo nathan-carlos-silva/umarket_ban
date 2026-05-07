@@ -56,7 +56,6 @@ Acesse a opção `5` no menu principal para visualizar:
 
 * **Rollback Manual**: Em caso de qualquer erro durante a inserção de itens (como falta de estoque), a aplicação remove automaticamente o cabeçalho da venda criado, evitando registros "sujos" ou zerados no banco de dados.
 * **Integridade Referencial**: O script SQL utiliza `ON DELETE CASCADE` de forma estratégica para garantir que a remoção de vendas limpe também seus respectivos itens.
-* **Ordenação**: Todas as listagens utilizam `ORDER BY` via SQL para garantir uma visualização organizada por ID ou nome.
 
 ---
 

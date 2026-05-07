@@ -1,3 +1,5 @@
+import java.io.PrintStream;
+import java.nio.charset.StandardCharsets;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.HashSet;
@@ -12,7 +14,8 @@ import java.util.Scanner;
 public class VendasProdutosController {
 
     public void createItemVenda(Connection con) throws SQLException {
-        Scanner input = new Scanner(System.in);
+        System.setOut(new PrintStream(System.out, true, StandardCharsets.UTF_8));
+        Scanner input = new Scanner(System.in, StandardCharsets.UTF_8.name());        
         int proximoIdVenda = -1; // Inicializado para controle de erro
 
         try {
